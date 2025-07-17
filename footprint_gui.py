@@ -440,7 +440,8 @@ def Footprint_content():
 
         update_plot2()
 
-    st.image("assets/neptoon-logo.svg", "Made with <3 and Neptoon")
+    c1, c2 = st.columns(2)
+    c2.image("assets/neptoon-logo.svg", "Made with <3 and Neptoon")
 
 
 @st.fragment
@@ -844,7 +845,8 @@ def Signal_content():
                 st.error(f"Error processing image: {str(e)}")
                 # Clean up temporary file if it was created
 
-    st.image("assets/neptoon-logo.svg", "Made with <3 and Neptoon")
+    c1, c2 = st.columns(2)
+    c2.image("assets/neptoon-logo.svg", "Made with <3 and Neptoon")
 
 
 Footprint_page = st.Page(
