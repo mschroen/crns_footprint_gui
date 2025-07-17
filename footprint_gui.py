@@ -25,11 +25,11 @@ def capture_stdout():
 # You'll need to install these packages or replace with equivalent functionality
 try:
     from figurex import Figure
-    from .lib.uranos import URANOS
+    from lib.uranos import URANOS
 
     from neptoon.corrections import Schroen2017
 
-    from .lib.Schroen2022hess import (
+    from lib.Schroen2022hess import (
         Field_at_Distance,
         Generate_Splitfields,
         Plot_Field,
