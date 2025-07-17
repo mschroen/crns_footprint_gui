@@ -331,7 +331,7 @@ def Plot_Sensibility(ax, N1, Neff):
     ax.annotate("hourly", (0.45, hourly * 1.1), ha="right")
     ax.annotate("daily", (0.45, daily * 1.1), ha="right")
     ax.annotate(
-        "${0:+.1%}$%".format(Nrel), (0, np.abs(Nrel) * 1.2), ha="center", fontsize=12
+        "$ {0:+.1%}$%".format(Nrel), (0, np.abs(Nrel) * 1.2), ha="center", fontsize=12
     )
 
     ax2 = ax.twinx()
