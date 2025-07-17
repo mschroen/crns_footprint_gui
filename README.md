@@ -3,13 +3,15 @@
 Signal Contribution and practical footprint estimations for cosmic-ray neutron sensors (CRNS)
 
 [![Code](https://zenodo.org/badge/448658297.svg)](https://zenodo.org/badge/latestdoi/448658297)
-[![Based on Schrön et al. (2023), HESS](https://img.shields.io/static/v1?label=Publication&message=10.5194/hess-27-723-2023&color=yellow)](https://doi.org/10.5194/hess-27-723-2023)
+[![Based on Schrön et al. (2023), HESS](https://img.shields.io/static/v1?label=Publication&message=10.5194/hess-27-723-2023&color=yellow)](https://doi.org/10.5194/hess-27-723-2023)  
+Made with <3 and  
+[![Neptoon](assets/neptoon-logo.svg)](https://www.neptoon.org/)
 
 
 ### Run online
 
 [![Streamlit Cloud](https://img.shields.io/static/v1?label=crns-footprint-gui&message=.streamlit.app&color=green)](https://crns-footprint-gui.streamlit.app)  
-Try it out interactively with Streamlit!
+Try it out interactively with our [online App on Streamlit Cloud](https://crns-footprint-gui.streamlit.app)!
 
 ### Run locally
 

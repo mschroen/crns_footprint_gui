@@ -42,22 +42,8 @@ except ImportError as e:
 
 # Streamlit App Configuration
 st.set_page_config(
-    # page_title="CRNS Signal Contributions Analysis",
-    # page_icon="🌍",
     layout="wide",
-    # initial_sidebar_state="expanded",
 )
-
-# st.title("🌍 CRNS Signal Contributions Analysis")
-# st.markdown(
-#     """
-# This app helps calculate signal contributions of various areas in the footprint of a CRNS detector,
-# and determine the practical footprint distance interactively.
-# """
-# )
-
-# Sidebar for main properties
-# st.sidebar.header("Domain parameters:")
 
 
 def create_stacked_horizontal_bar(R_50, R_33, R_66, R_20, R_40, R_60, R_80):
@@ -165,7 +151,6 @@ def create_stacked_horizontal_bar(R_50, R_33, R_66, R_20, R_40, R_60, R_80):
 ##########################
 ##########################
 ##########################
-# Tab 1: Field at Distance
 def Footprint_content():
     st.header(":material/barefoot: Footprint Analysis")
 
@@ -351,11 +336,6 @@ def Footprint_content():
 
         update_plot()
 
-    ##########################
-    ##########################
-    ##########################
-    # Tab 2: Practical Footprint
-    # def Practical_content():
     with st.container(border=True):
 
         st.subheader(":material/barefoot: The Practical Footprint")
@@ -459,6 +439,8 @@ def Footprint_content():
                 st.error(f"Error in calculations: {str(e)}")
 
         update_plot2()
+
+    st.image("neptoon-logo.svg", "Made with <3 and Neptoon")
 
 
 @st.fragment
@@ -659,7 +641,6 @@ def compare_uranos(X):
 ##########################
 ##########################
 ##########################
-# Tab 3: Signal Contributions
 def Signal_content():
     st.header(":material/globe: Signal Contributions of User-Defined Pattern")
     st.markdown(
@@ -862,6 +843,8 @@ def Signal_content():
             except Exception as e:
                 st.error(f"Error processing image: {str(e)}")
                 # Clean up temporary file if it was created
+
+    st.image("neptoon-logo.svg", "Made with <3 and Neptoon")
 
 
 Footprint_page = st.Page(
