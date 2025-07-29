@@ -19,7 +19,7 @@ except ImportError as e:
 st.subheader(":material/trending_down: Incoming cosmic-ray reference")
 
 st.markdown(
-    ":material/info: The cosmic-ray reference signal is used to correct the CRNS data for incoming variation of particles, e.g. due to solar events or the solar cycle. This reference signal is measured independently by so-called neutron monitors. The signal of a neutron monitor at a similar geomagnetic cutoff-rigidity and altitude compared to the CRNS location represents the incoming flux at the CRNS site in the best way. Please visit the [NMDB station map](http://www01.nmdb.eu/nest/help.php#helpstations) for more information. Select a nearby neutron monitor, so that its data can be downloaded from [NMDB](http://www01.nmdb.eu/nest). You can then inspect the data and download it as CSV."
+    "The cosmic-ray reference signal is used to correct the CRNS data for incoming variation of particles, e.g. due to solar events or the solar cycle. This reference signal is measured independently by so-called neutron monitors. The signal of a neutron monitor at a similar geomagnetic cutoff-rigidity and altitude compared to the CRNS location represents the incoming flux at the CRNS site in the best way. Please visit the [NMDB station map](http://www01.nmdb.eu/nest/help.php#helpstations) for more information. Select a nearby neutron monitor, so that its data can be downloaded from [NMDB](http://www01.nmdb.eu/nest). You can then inspect the data and download it as CSV."
 )
 
 stations = dict(
@@ -51,6 +51,7 @@ def select_nm(nmdbstation_is="JUNG"):
             "Period from",
             date(2025, 1, 1),
             max_value="today",
+            min_value=date(1951, 1, 1),
             format="YYYY-MM-DD",
             key="date_start",
         )
@@ -58,6 +59,7 @@ def select_nm(nmdbstation_is="JUNG"):
             "to",
             date(2025, 2, 1),
             max_value="today",
+            min_value=date(1951, 1, 1),
             format="YYYY-MM-DD",
             key="date_end",
         )
@@ -84,16 +86,23 @@ def select_nm(nmdbstation_is="JUNG"):
                 lon=[ll[1] for ll in stations.values()],
                 marker=dict(color="blue"),
                 name="Available stations",
+                hoverinfo="text",
+                text=list(stations.keys()),
             )
         )
 
         if len(nmdbstation) > 0:
             last_picked_station = nmdbstation[-1]
+            selected_stations = {
+                key: stations[key] for key in nmdbstation if key in stations
+            }
             fig.add_trace(
                 go.Scattergeo(
-                    lat=[stations[last_picked_station][0]],
-                    lon=[stations[last_picked_station][1]],
+                    lat=[ll[0] for ll in selected_stations.values()],
+                    lon=[ll[1] for ll in selected_stations.values()],
                     marker=dict(color="orange"),
+                    hoverinfo="text",
+                    text=list(selected_stations.keys()),
                     name="Selected station",
                 )
             )
@@ -172,122 +181,136 @@ select_nm("JUNG")
 
 c1, c2 = st.columns([1, 3])
 process_button = c1.button(
-    ":material/download: Download Neutron Monitor data", type="primary"
+    ":material/download: Get Neutron Monitor data", type="primary"
 )
 
 if process_button:
 
-    progress_bar = c2.progress(0)
-
     number_of_stations = len(st.session_state["nm_station"])
-    i = 0
-    data_dict = {}
-    for nm_station in st.session_state["nm_station"]:
-        i += 1
-        progress_bar.progress(
-            (i - 1) / number_of_stations * 0.7, text="Downloading %s..." % nm_station
-        )
+    if number_of_stations == 0:
+        st.warning(":material/warning: You need to select a station first.")
+    elif st.session_state["date_start"] >= st.session_state["date_end"]:
+        st.warning(":material/warning: Start date cannot be after end date")
+    else:
 
-        data_nm_days = []
-        if st.session_state["resolution"] == 1:
-            start = datetime.combine(
-                st.session_state["date_start"], datetime.min.time()
+        progress_bar = c2.progress(0)
+
+        i = 0
+        data_dict = {}
+        for nm_station in st.session_state["nm_station"]:
+            i += 1
+            progress_bar.progress(
+                (i - 1) / number_of_stations * 0.7,
+                text="Downloading %s..." % nm_station,
             )
-            end = datetime.combine(st.session_state["date_end"], datetime.min.time())
-            delta = end - start
-            days = delta.days
-            j = 0
-            for d in [start + timedelta(days=d) for d in range(days + 1)]:
-                j += 1
-                progress_bar.progress(
-                    ((i - 1) + (j - 1) / (days + 1)) / number_of_stations * 0.7,
-                    text="Downloading %s (%s)..."
-                    % (nm_station, d.strftime("%Y-%m-%d")),
-                )
-                d_start = d.replace(hour=0, minute=0, second=0, tzinfo=pytz.UTC)
-                d_end = d.replace(hour=23, minute=59, second=0, tzinfo=pytz.UTC)
-                if d_end > datetime.now(pytz.UTC):
-                    d_end = min(end, datetime.now(pytz.UTC))
 
-                data_nm_d = attach_nmdb(
-                    start_date_wanted=str(d_start),
-                    end_date_wanted=str(d_end),
+            data_nm_days = []
+            if st.session_state["resolution"] == 1:
+                start = datetime.combine(
+                    st.session_state["date_start"], datetime.min.time()
+                )
+                end = datetime.combine(
+                    st.session_state["date_end"], datetime.min.time()
+                )
+                delta = end - start
+                days = delta.days
+                j = 0
+                for d in [start + timedelta(days=d) for d in range(days + 1)]:
+                    j += 1
+                    progress_bar.progress(
+                        ((i - 1) + (j - 1) / (days + 1)) / number_of_stations * 0.7,
+                        text="Downloading %s (%s)..."
+                        % (nm_station, d.strftime("%Y-%m-%d")),
+                    )
+                    d_start = d.replace(hour=0, minute=0, second=0, tzinfo=pytz.UTC)
+                    d_end = d.replace(hour=23, minute=59, second=0, tzinfo=pytz.UTC)
+                    if d_end > datetime.now(pytz.UTC):
+                        d_end = min(end, datetime.now(pytz.UTC))
+
+                    data_nm_d = attach_nmdb(
+                        start_date_wanted=str(d_start),
+                        end_date_wanted=str(d_end),
+                        station=nm_station,
+                        resolution=st.session_state["resolution"],
+                        use_cache=st.session_state["use_cache"],
+                    )
+
+                    data_nm_days.append(data_nm_d)
+
+                data_nm = pd.concat([d for d in data_nm_days if d is not None], axis=0)
+
+                if not data_nm.empty:
+                    # Clean data
+                    data_nm = data_nm[~data_nm.index.duplicated(keep="first")]
+                    # data_nm.index = data_nm.index.tz_localize(None).tz_localize('UTC')
+                    data_nm = data_nm.sort_index()
+                    # mean = data_nm.mean()
+                    # self.data.loc[self.data['NM'] < mean / 1.2, 'NM'] = np.nan
+                    # self.data.loc[self.data['NM'] > mean * 1.2, 'NM'] = np.nan
+                    data_nm = data_nm.interpolate()
+            else:
+                data_nm = attach_nmdb(
+                    start_date_wanted=str(st.session_state["date_start"]),
+                    end_date_wanted=str(st.session_state["date_end"]),
                     station=nm_station,
                     resolution=st.session_state["resolution"],
                     use_cache=st.session_state["use_cache"],
                 )
+            data_dict[nm_station] = data_nm
 
-                data_nm_days.append(data_nm_d)
-
-            data_nm = pd.concat([d for d in data_nm_days if d is not None], axis=0)
-
-            if not data_nm.empty:
-                # Clean data
-                data_nm = data_nm[~data_nm.index.duplicated(keep="first")]
-                # data_nm.index = data_nm.index.tz_localize(None).tz_localize('UTC')
-                data_nm = data_nm.sort_index()
-                # mean = data_nm.mean()
-                # self.data.loc[self.data['NM'] < mean / 1.2, 'NM'] = np.nan
-                # self.data.loc[self.data['NM'] > mean * 1.2, 'NM'] = np.nan
-                data_nm = data_nm.interpolate()
-        else:
-            data_nm = attach_nmdb(
-                start_date_wanted=str(st.session_state["date_start"]),
-                end_date_wanted=str(st.session_state["date_end"]),
-                station=nm_station,
-                resolution=st.session_state["resolution"],
-                use_cache=st.session_state["use_cache"],
-            )
-        data_dict[nm_station] = data_nm
-
-    progress_bar.progress(0.7, text="Merging data...")
-    data = pd.concat(
-        {key: series["count"] for key, series in data_dict.items()}, axis=1
-    )
-
-    tab1, tab2 = st.tabs([":material/show_chart: Plots", ":material/table: Data"])
-
-    progress_bar.progress(0.8, text="Plotting data...")
-    fig = go.Figure()
-
-    for column in data.columns:
-        fig.add_trace(
-            go.Scatter(
-                x=data.index,
-                y=data[column] / data[column].mean(),
-                mode="lines",
-                name=column,
-                line=dict(width=2),
-            )
+        progress_bar.progress(0.7, text="Merging data...")
+        data = pd.concat(
+            {key: series["count"] for key, series in data_dict.items()}, axis=1
         )
 
-    fig.update_layout(
-        yaxis_title="Normalized counts",
-        hovermode="x unified",
-        margin=dict(t=20),
-    )
+        tab1, tab2 = st.tabs([":material/show_chart: Plots", ":material/table: Data"])
 
-    tab1.plotly_chart(fig, use_container_width=True)
+        progress_bar.progress(0.8, text="Plotting data...")
+        fig = go.Figure()
 
-    with tab2:
-        progress_bar.progress(0.9, text="Generating data table...")
-        st.dataframe(data)
+        for column in data.columns:
+            fig.add_trace(
+                go.Scatter(
+                    x=data.index,
+                    y=data[column] / data[column].mean(),
+                    mode="lines",
+                    name=column,
+                    line=dict(width=2),
+                )
+            )
 
-    progress_bar.progress(1.0, text=":material/check_circle: Completed.")
+        fig.update_layout(
+            yaxis_title="Normalized counts",
+            hovermode="x unified",
+            margin=dict(t=20),
+        )
 
-    file_name = "nmdb-{:}-{:}Min-{:}-{:}.csv".format(
-        "_".join(st.session_state["nm_station"]),
-        st.session_state["resolution"],
-        st.session_state["date_start"].strftime("%Y%m%d"),
-        st.session_state["date_end"].strftime("%Y%m%d"),
-    )
-    print(file_name)
-    st.download_button(
-        label="Download CSV",
-        data=data.to_csv().encode("utf-8"),
-        file_name=file_name,
-        mime="text/csv",
-        icon=":material/download:",
-        on_click="ignore",
-        help=file_name,
-    )
+        tab1.plotly_chart(fig, use_container_width=True)
+
+        with tab2:
+            progress_bar.progress(0.9, text="Generating data table...")
+            st.dataframe(data)
+
+        progress_bar.progress(1.0, text=":material/check_circle: Completed.")
+
+        file_name = "nmdb-{:}-{:}Min-{:}-{:}.csv".format(
+            "_".join(st.session_state["nm_station"]),
+            st.session_state["resolution"],
+            st.session_state["date_start"].strftime("%Y%m%d"),
+            st.session_state["date_end"].strftime("%Y%m%d"),
+        )
+
+        st.download_button(
+            label="Download CSV",
+            data=data.to_csv().encode("utf-8"),
+            file_name=file_name,
+            mime="text/csv",
+            icon=":material/download:",
+            on_click="ignore",
+            help=file_name,
+        )
+        st.info(
+            ":material/info: Data retrieved via NMDB are the property of the individual data providers. These data are free for non commercial use to within the restriction imposed by the providers. If you use such data for your research or applications, please acknowledge the origin by a sentence like: 'We acknowledge the NMDB database (www.nmdb.eu) founded under the European Union's FP7 programme (contract no. 213 007), and the PIs of individual neutron monitors"
+        )
+
+show_footer()

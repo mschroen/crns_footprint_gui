@@ -1,4 +1,4 @@
-# CRNS Footprint GUI
+# CRNS Footprint & Neptoon tools GUI
 
 Signal Contribution and practical footprint estimations for cosmic-ray neutron sensors (CRNS)
 
@@ -10,8 +10,8 @@ Made with <3 and
 
 ### Run online
 
-[![Streamlit Cloud](https://img.shields.io/static/v1?label=crns-footprint-gui&message=.streamlit.app&color=green)](https://crns-footprint-gui.streamlit.app)  
-Try it out interactively with our [online App on Streamlit Cloud](https://crns-footprint-gui.streamlit.app)!
+[![Streamlit Cloud](https://img.shields.io/static/v1?label=neptoon-tools&message=.streamlit.app&color=green)](https://neptoon-tools.streamlit.app)  
+Try it out interactively with our [online App on Streamlit Cloud](https://neptoon-tools.streamlit.app)!
 
 ### Run locally
 
@@ -30,6 +30,9 @@ Interactively calculate the practical footprint distance:
 
 Display user-defined scenarios and URANOS simulations:  
 ![Display user-defined scenarios and URANOS simulations](docs/complex_pattern.png)
+
+New: Download and display incoming neutron monitor data from NMDB.eu:
+![Download and display incoming neutron monitor data from NMDB.eu](docs/incoming_cr_data.png)
 
 ## Install locally
 
