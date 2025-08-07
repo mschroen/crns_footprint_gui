@@ -25,8 +25,18 @@ Incoming_page = st.Page(
     default=False,
 )
 
+Vertical_page = st.Page(
+    "pages/Vertical_averaging.py",
+    title="Vertical averaging",
+    icon=":material/line_style:",
+    default=False,
+)
+
 pages = st.navigation(
-    {"Footprint": [Footprint_page, Signal_page], "Corrections": [Incoming_page]},
+    {
+        "Footprint": [Footprint_page, Signal_page, Vertical_page],
+        "Corrections": [Incoming_page],
+    },
     position="top",
 )
 pages.run()
