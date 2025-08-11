@@ -31,6 +31,14 @@ stations = dict(
     HRMS=(-34.43, 19.23),
 )
 
+stations_acknowledgements = dict(
+    JUNG="IGY Jungfraujoch (Physikalisches Institut, University of Bern, Switzerland)",
+    SOPO="South Pole (University of Wisconsin, River Falls, USA)",
+    OULU="Oulu (Sodankyla Geophysical Observatory of the University of Oulu, Finland)",
+    PSNM="Doi Inthanon (Princess Sirindhorn NM) (Mahidol University, Chulalongkorn University, and Ubon Rajathanee University, Thailand)",
+    MXCO="Mexico (Cosmic Ray Group, Geophysical Institute, National Autonomous University of Mexico, UNAM, Mexico)",
+    HRMS="Hermanus (Centre for Space Research, North-West University, Potchefstroom, South Africa)",
+)
 
 @st.fragment
 def select_nm(nmdbstation_is="JUNG"):
@@ -309,8 +317,9 @@ if process_button:
             on_click="ignore",
             help=file_name,
         )
+        station_acknowledgement_text = ", ".join([stations_acknowledgements[nm_station] for nm_station in st.session_state["nm_station"]])
         st.info(
-            ":material/info: Data retrieved via NMDB are the property of the individual data providers. These data are free for non commercial use to within the restriction imposed by the providers. If you use such data for your research or applications, please acknowledge the origin by a sentence like: 'We acknowledge the NMDB database (www.nmdb.eu) founded under the European Union's FP7 programme (contract no. 213 007), and the PIs of individual neutron monitors.'."
+            f":material/info: Data retrieved via NMDB are the property of the individual data providers. These data are free for non commercial use to within the restriction imposed by the providers. If you use such data for your research or applications, please acknowledge the origin by a sentence like: 'We acknowledge the NMDB database (www.nmdb.eu) founded under the European Union's FP7 programme (contract no. 213 007), and the PIs of individual neutron monitors at: {station_acknowledgement_text}.'."
         )
 
 show_footer_nmdb()
