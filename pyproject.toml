@@ -1,0 +1,7 @@
+[project]
+name = "neptoon-tools"
+version = "0.1.0"
+description = "CRNS Footprint & Neptoon tools GUI"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
