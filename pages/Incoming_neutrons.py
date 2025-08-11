@@ -5,7 +5,7 @@ import plotly.graph_objects as go
 from datetime import date, datetime, timedelta
 import pytz
 
-from lib.functions import capture_stdout, show_footer
+from lib.functions import capture_stdout, show_footer_nmdb
 
 try:
     from neptoon.external.nmdb_data_collection import (
