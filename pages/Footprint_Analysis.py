@@ -1,19 +1,15 @@
 import streamlit as st
 
-import os
 import numpy as np
-from glob import glob
 from scipy import optimize
 import pandas as pd
 import matplotlib.pyplot as plt
 import plotly.graph_objects as go
 
-from lib.functions import capture_stdout, show_footer
+from lib.functions import show_footer
 
 try:
-    from figurex import Figure
-
-    from neptoon.corrections import Schroen2017
+    from neptoon.corrections.theory.calibration_functions import Schroen2017
 
     from lib.Schroen2022hess import (
         Field_at_Distance,

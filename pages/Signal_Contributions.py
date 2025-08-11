@@ -1,16 +1,11 @@
 import streamlit as st
 import os
-import numpy as np
 from glob import glob
-from scipy import optimize
-import pandas as pd
 import matplotlib.pyplot as plt
-import plotly.graph_objects as go
 
 from lib.functions import capture_stdout, show_footer
 
 try:
-    from figurex import Figure
     from lib.uranos import URANOS
 
 except ImportError as e:
@@ -217,7 +212,7 @@ st.header(":material/globe: Signal Contributions of User-Defined Pattern")
 st.markdown(
     "Calculate the signal contribution for a central sensor in a soil moisture domain given by an image file."
 )
-if not "selected_image" in st.session_state:
+if "selected_image" not in st.session_state:
     st.session_state.selected_image = None
 
 
@@ -246,7 +241,6 @@ def select_image():
                 # caption=os.path.basename(selected_image),
                 use_container_width=True,
             )
-            selected_image_path = selected_image
     else:
         st.warning("No PNG images found in folder `examples/`")
 

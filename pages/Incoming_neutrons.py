@@ -1,17 +1,15 @@
 import streamlit as st
-import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 from datetime import date, datetime, timedelta
 import pytz
 
-from lib.functions import capture_stdout, show_footer_nmdb
+from lib.functions import show_footer_nmdb
 
 try:
     from neptoon.external.nmdb_data_collection import (
         NMDBConfig,
         NMDBDataHandler,
-        CacheHandler,
     )
 except ImportError as e:
     st.error(f"Missing or problematic packages: {e}")
@@ -55,7 +53,7 @@ def select_nm(nmdbstation_is="JUNG"):
         )
 
         c11, c12, c13 = st.columns(3)
-        date_start = c11.date_input(
+        c11.date_input(
             "Period from",
             date(2025, 1, 1),
             max_value="today",
@@ -63,7 +61,7 @@ def select_nm(nmdbstation_is="JUNG"):
             format="YYYY-MM-DD",
             key="date_start",
         )
-        date_end = c12.date_input(
+        c12.date_input(
             "to",
             date(2025, 2, 1),
             max_value="today",
@@ -71,7 +69,7 @@ def select_nm(nmdbstation_is="JUNG"):
             format="YYYY-MM-DD",
             key="date_end",
         )
-        resolution = c13.number_input(
+        c13.number_input(
             "Resolution (Min)",
             min_value=1,
             value=60,

@@ -4,12 +4,10 @@ import pandas as pd
 import re
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
-from datetime import date, datetime, timedelta
-import pytz
 from io import StringIO
 from scipy import interpolate
 
-from lib.functions import capture_stdout, show_footer
+from lib.functions import show_footer
 
 try:
     from neptoon.corrections.theory.calibration_functions import Schroen2017
