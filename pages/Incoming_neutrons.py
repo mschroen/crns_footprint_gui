@@ -19,7 +19,7 @@ except ImportError as e:
 st.subheader(":material/trending_down: Incoming cosmic-ray reference")
 
 st.markdown(
-    "The cosmic-ray reference signal is used to correct the CRNS data for incoming variation of particles, e.g. due to solar events or the solar cycle. This reference signal is measured independently by so-called neutron monitors. The signal of a neutron monitor at a similar geomagnetic cutoff-rigidity and altitude compared to the CRNS location represents the incoming flux at the CRNS site in the best way. Please visit the [NMDB station map](http://www01.nmdb.eu/nest/help.php#helpstations) for more information. Select a nearby neutron monitor, so that its data can be downloaded from [NMDB](http://www01.nmdb.eu/nest). You can then inspect the data and download it as CSV."
+    "The cosmic-ray reference signal is used to correct the CRNS data for incoming variation of particles, e.g. due to solar events or the solar cycle. This reference signal is measured independently by neutron monitors. The signal of a neutron monitor at a similar geomagnetic cutoff-rigidity and altitude compared to the CRNS location represents the incoming flux at the CRNS site in the best way. Please visit the [NMDB station map](https://www.nmdb.eu/nest/help.php#helpstations) for more information. Select a nearby neutron monitor, so that its data can be downloaded from [NMDB](http://www01.nmdb.eu/nest). You can then inspect the data and download it as CSV."
 )
 
 stations = dict(
@@ -310,7 +310,7 @@ if process_button:
             help=file_name,
         )
         st.info(
-            ":material/info: Data retrieved via NMDB are the property of the individual data providers. These data are free for non commercial use to within the restriction imposed by the providers. If you use such data for your research or applications, please acknowledge the origin by a sentence like: 'We acknowledge the NMDB database (www.nmdb.eu) founded under the European Union's FP7 programme (contract no. 213 007), and the PIs of individual neutron monitors"
+            ":material/info: Data retrieved via NMDB are the property of the individual data providers. These data are free for non commercial use to within the restriction imposed by the providers. If you use such data for your research or applications, please acknowledge the origin by a sentence like: 'We acknowledge the NMDB database (www.nmdb.eu) founded under the European Union's FP7 programme (contract no. 213 007), and the PIs of individual neutron monitors.'."
         )
 
-show_footer()
+show_footer_nmdb()
