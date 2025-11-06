@@ -25,6 +25,15 @@ Incoming_page = st.Page(
     default=False,
 )
 
+Soil_page = st.Page(
+    "pages/Soil_parameters.py",
+    title="Soil parameters",
+    icon=":material/landslide:",
+    default=False,
+)
+
+
+
 Vertical_page = st.Page(
     "pages/Vertical_averaging.py",
     title="Vertical averaging",
@@ -35,7 +44,7 @@ Vertical_page = st.Page(
 pages = st.navigation(
     {
         "Footprint": [Footprint_page, Signal_page, Vertical_page],
-        "Corrections": [Incoming_page],
+        "External": [Incoming_page, Soil_page],
     },
     position="top",
 )

@@ -7,3 +7,5 @@ scipy
 matplotlib
 pillow
 figurex
+rasterio
+streamlit_folium
