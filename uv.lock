@@ -1005,7 +1005,7 @@ wheels = [
 
 [[package]]
 name = "neptoon"
-version = "0.13.2"
+version = "0.13.7"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "figurex" },
@@ -1027,9 +1027,9 @@ dependencies = [
     { name = "typer" },
     { name = "urllib3" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/4e/2b/081dbb703faaf99b61428088bb181a341705d52c0a52bb3029fc6639bfd2/neptoon-0.13.2.tar.gz", hash = "sha256:bf984634d29aa883782d6b1e9764e1e0b3a0de91533e01807d0da3e61c628980", size = 5410483, upload-time = "2025-09-18T09:17:57.706Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/ff/50/388336adae71d3e77a8a3d28f3d16e9f466ba95a1dac265ec286e245327b/neptoon-0.13.7.tar.gz", hash = "sha256:9e46c3acbdc340d4e83f3778f7cbbc72ee0f9f3ba2f95912a41566a8b301b394", size = 5431982, upload-time = "2025-09-26T14:38:09.481Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/5d/60/663fae1511dff9b4ef737636ce2c8225e88f0d6d32e36d0ec5b39abd8094/neptoon-0.13.2-py3-none-any.whl", hash = "sha256:046945763f6e3c1e436f31fc3e2785b300563703492ad4e11cd524b3f8a01c85", size = 3362472, upload-time = "2025-09-18T09:17:55.012Z" },
+    { url = "https://files.pythonhosted.org/packages/f2/d8/3bf1a833e03826fa1fccdb7b17b60e74f970fd3191d7a7b09176ec225cc4/neptoon-0.13.7-py3-none-any.whl", hash = "sha256:d7dcb35b95bdc6bcecfcb99bc0b750e79df9a4e5b12bc2bd473be8ffa28973ad", size = 3364485, upload-time = "2025-09-26T14:38:06.676Z" },
 ]
 
 [[package]]
@@ -1061,7 +1061,7 @@ requires-dist = [
     { name = "figurex", specifier = ">=0.2.13" },
     { name = "folium", specifier = ">=0.20.0" },
     { name = "matplotlib", specifier = ">=3.10.5" },
-    { name = "neptoon", specifier = ">=0.12.0" },
+    { name = "neptoon", specifier = ">=0.13.7" },
     { name = "numpy", specifier = ">=1.26.4" },
     { name = "pandas", specifier = ">=2.3.1" },
     { name = "pillow", specifier = ">=11.3.0" },
