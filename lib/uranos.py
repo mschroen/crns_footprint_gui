@@ -18,8 +18,8 @@ from neptoon.corrections.theory.calibration_functions import (
     Schroen2017,
 )
 from neptoon.corrections.theory.neutrons_to_soil_moisture import (
-    gravimetric_soil_moisture_to_neutrons_koehli_etal_2021,
-    neutrons_to_total_grav_soil_moisture_koehli_etal_2021,
+    grav_soil_moisture_to_neutrons_koehli_etal_2021,
+    neutrons_to_grav_soil_moisture_koehli_etal_2021,
 )
 
 
@@ -369,11 +369,11 @@ class URANOS:
                         # )
                         # * N0
                         # / 0.77
-                        gravimetric_soil_moisture_to_neutrons_koehli_etal_2021(
+                        grav_soil_moisture_to_neutrons_koehli_etal_2021(
                             self.SM[i, j],
                             self.hum,
                             N0 / 0.77,
-                            koehli_method_form="Mar21_uranos_drf",
+                            koehli_parameters="Mar21_uranos_drf",
                         )
                     )
 
@@ -624,7 +624,7 @@ class URANOS:
         """
         field_mean = self.SM.mean()
         sm_weighted_field_mean = (self.Weights * self.SM).sum()
-        N_weighted_field_mean = neutrons_to_total_grav_soil_moisture_koehli_etal_2021(
+        N_weighted_field_mean = neutrons_to_grav_soil_moisture_koehli_etal_2021(
             (self.Weights * self.Neutrons).sum(), N0 / 0.77, self.hum
         )
         # N_weighted_field_mean = N2SM_Schmidt_single(

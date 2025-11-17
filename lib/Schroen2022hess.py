@@ -7,8 +7,8 @@ from neptoon.corrections.theory.calibration_functions import (
     Schroen2017,
 )
 from neptoon.corrections.theory.neutrons_to_soil_moisture import (
-    gravimetric_soil_moisture_to_neutrons_koehli_etal_2021,
-    neutrons_to_total_grav_soil_moisture_koehli_etal_2021,
+    grav_soil_moisture_to_neutrons_koehli_etal_2021,
+    neutrons_to_grav_soil_moisture_koehli_etal_2021,
 )
 
 # from .Koehli2021fiw import sm2N_Koehli  # , N2SM_Schmidt_single
@@ -31,17 +31,17 @@ def Field_at_Distance(
     """
     Function to calculate N_eff as a whole
     """
-    N1 = gravimetric_soil_moisture_to_neutrons_koehli_etal_2021(
+    N1 = grav_soil_moisture_to_neutrons_koehli_etal_2021(
         theta1,
         hum,
         N0 / N0_scaling,
-        koehli_method_form="Mar21_uranos_drf",
+        koehli_parameters="Mar21_uranos_drf",
     )
-    N2 = gravimetric_soil_moisture_to_neutrons_koehli_etal_2021(
+    N2 = grav_soil_moisture_to_neutrons_koehli_etal_2021(
         theta2,
         hum,
         N0 / N0_scaling,
-        koehli_method_form="Mar21_uranos_drf",
+        koehli_parameters="Mar21_uranos_drf",
     )
     # N1 = (
     #     sm2N_Koehli(
@@ -94,7 +94,7 @@ def Field_at_Distance(
     # sm_eff = N2SM_Schmidt_single(N_eff / N0 * N0_scaling, hum=hum, bd=bd)
     # print("neptoon", N_eff, hum, bd, lw, owe, method)
     sm_eff = (
-        neutrons_to_total_grav_soil_moisture_koehli_etal_2021(
+        neutrons_to_grav_soil_moisture_koehli_etal_2021(
             N_eff, N0 / N0_scaling, hum
         )
         # * bd
@@ -228,11 +228,11 @@ def Plot_Ntheta(
 
     th = np.arange(0.01, 0.9, 0.01)
     N = [
-        gravimetric_soil_moisture_to_neutrons_koehli_etal_2021(
+        grav_soil_moisture_to_neutrons_koehli_etal_2021(
             x,
             hum,
             N0 / N0_scaling,
-            koehli_method_form="Mar21_uranos_drf",
+            koehli_parameters="Mar21_uranos_drf",
         )
         for x in th
     ]
