@@ -268,7 +268,7 @@ if hasattr(st.session_state, "data_processed") and st.session_state.data_process
 
     # Download button
     csv_buffer = StringIO()
-    processed_df.to_csv(csv_buffer, index=False)
+    processed_df.to_csv(csv_buffer, index=True)
     csv_string = csv_buffer.getvalue()
 
     st.download_button(
